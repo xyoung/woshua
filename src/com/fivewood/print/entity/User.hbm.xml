@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.fivewood.print.entity">
+	<class name="User" table="USER" catalog="print">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="username" type="string" column="USERNAME" not-null="true" />
+		
+		<property name="password" type="string" column="PASSWORD" not-null="true" />
+		
+		<property name="email" type="string" column="EMAIL" not-null="true" />
+		
+		<property name="registTime" > <column name="REGIST_TIME"
+                    sql-type="datetime" not-null="true"/></property>
+		
+		<property name="editTime" > <column name="EDIT_TIME"
+                    sql-type="datetime" not-null="true"/></property>
+		
+		<property name="userType" type="integer" column="USER_TYPE" />
+		<property name="name" type="string" column="NAME" />
+		<property name="company" type="string" column="COMPANY" />
+		<property name="address" type="string" column="ADDRESS"  />
+		<property name="phone" type="string" column="PHONE"  />
+		
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+
+	<package name="user" extends="struts-default" namespace="/">
+		<action name="signin" class="com.fivewood.print.action.SigninAction">
+			<result type="redirectAction">
+				<param name="actionName">myaccount</param> 
+            	<param name="reg">${reg }</param></result>
+			<result name="input">module/signin.jsp</result>
+		</action>
+		<action name="login" class="com.fivewood.print.action.LoginAction">
+			<result type="redirectAction">
+				<param name="actionName">myorder</param> 
+            </result>
+			<result name="input">module/login.jsp</result>
+		</action>
+		<action name="logout" class="com.fivewood.print.action.LoginAction" method="logout">
+			<result>index.jsp</result>
+		</action>
+		
+		<action name="loginindex" class="com.fivewood.print.action.LoginAction" method="loginIndex">
+			<result name="success">module/login.jsp</result>
+			<result name="login">module/userinfo.jsp</result>
+		</action>
+		
+		<action name="myorder" class="com.fivewood.print.action.OrderAction">
+			<result name="success">module/myorder.jsp</result>
+			<result name="fail">module/fail.jsp</result>
+		</action>
+		
+		<action name="neworder" class="com.fivewood.print.action.NewOrderAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">orderinfo</param> 
+            	<param name="orderId">${orderId }</param>
+			</result>
+			<result name="fail">module/fail.jsp</result>
+		</action>
+		
+		<action name="deleteorder" class="com.fivewood.print.action.EditOrderAction" method="delete">
+			<result type="redirectAction">
+				<param name="actionName">myorder</param> 
+				<param name="page">${page }</param>
+            </result>
+            <result name="fail">module/fail.jsp</result>
+		</action>
+		
+		<action name="orderinfo" class="com.fivewood.print.action.OrderInfoAction" >
+			<result>module/orderinfo.jsp</result>
+			<result name="fail">module/fail.jsp</result>
+		</action>
+		
+		<action name="editorder" class="com.fivewood.print.action.EditOrderAction">
+			<result name="success">module/order/editorder.jsp</result>
+			<result name="fail">module/fail.jsp</result>
+		</action>
+		
+		<action name="saveorder" class="com.fivewood.print.action.NewOrderAction" method="edit">
+			<result type="redirectAction">
+				<param name="actionName">editorder</param> 
+				<param name="orderId">${orderId }</param>
+				<param name="save">2</param>
+            </result>
+            <result name="fail">module/fail.jsp</result>
+		</action>
+		
+		
+		
+		
+		<action name="saveaccount" class="com.fivewood.print.action.AccountAction" method="saveAccount">
+			<result>module/userinfo.jsp</result>
+			<result name="fail">module/fail.jsp</result>
+		</action>
+		
+		<action name="myaccount" class="com.fivewood.print.action.AccountAction" method="userInfo">
+			<result>module/userinfo.jsp</result>
+			<result name="fail">module/fail.jsp</result>
+		</action>
+		
+		
+		
+		
+		<action name="upload" class="com.fivewood.print.action.UploadAction">
+			<param name="savePath">/upload</param>
+		</action>
+	</package>
+	<package name="ajax" extends="json-default" namespace="/">
+		<action name="ordertable" class="com.fivewood.print.action.OrderAction" method="getOnePage">
+			<result type="json">
+			</result>
+		</action>
+		<action name="emailexist" class="com.fivewood.print.action.ValidateAction" method="emailExist">
+			<result type="json">
+			</result>
+		</action>
+		<action name="usernameexist" class="com.fivewood.print.action.ValidateAction" method="usernameExist">
+			<result type="json">
+			</result>
+		</action>
+		
+		
+		
+	</package>
+	
+	
+	<!-- 限定文件大小 -->
+  <constant name="struts.multipart.maxSize" value="1000000000" />
+  <package name="upload" namespace="/upload" extends="json-default">  
+    	<!-- 查询上传进度 -->
+		<action name="progress" class="com.fivewood.print.upload.FileProgressAction">
+       		<result name="success" type="json"></result>
+    	</action>
+    
+    <!-- 上传文件 -->
+    	<action name="upload" class="com.fivewood.print.upload.FileProgressUploadAction">
+      		<result name="success">/index.jsp</result>
+      		<result name="input">/error.jsp</result>
+    	</action>
+  </package>
+  
+  
+  <!-- 重新指定request封装类 -->
+  <bean type="org.apache.struts2.dispatcher.multipart.MultiPartRequest" name="requestParser"
+        class="com.fivewood.print.upload.MyMultiPartRequest" scope="default" optional="true" />
+  <constant name="struts.multipart.handler" value="requestParser" />
+
+</struts>    
